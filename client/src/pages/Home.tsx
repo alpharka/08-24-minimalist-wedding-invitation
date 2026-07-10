@@ -1,25 +1,380 @@
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { toast } from "sonner";
 
 /**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
+ * Minimalist Wedding Invitation Website
+ * Design Philosophy: "Less, but better"
+ * - Generous whitespace and vertical flow
+ * - Elegant typography (Playfair Display + Inter)
+ * - Restrained luxury with gold accents
+ * - Soft animations and refined interactions
  */
+
 export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+  const [rsvpData, setRsvpData] = useState({
+    name: "",
+    email: "",
+    guests: "1",
+    dietary: "",
+  });
+  const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
+  const [wishesText, setWishesText] = useState("");
+
+  const handleRsvpChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setRsvpData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleRsvpSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rsvpData.name || !rsvpData.email) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    setRsvpSubmitted(true);
+    toast.success("Thank you for confirming your presence!");
+    setTimeout(() => {
+      setRsvpData({ name: "", email: "", guests: "1", dietary: "" });
+      setRsvpSubmitted(false);
+    }, 3000);
+  };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-[#EAEAEA] z-50">
+        <div className="container flex items-center justify-between py-4">
+          <div className="text-2xl font-serif font-bold text-[#D4AF37]">&</div>
+          <nav className="hidden md:flex gap-8 text-xs font-medium tracking-wide uppercase">
+            <a href="#couple" className="text-[#1F1F1F] hover:text-[#D4AF37] transition-colors">
+              Story
+            </a>
+            <a href="#event" className="text-[#1F1F1F] hover:text-[#D4AF37] transition-colors">
+              Event
+            </a>
+            <a href="#gallery" className="text-[#1F1F1F] hover:text-[#D4AF37] transition-colors">
+              Gallery
+            </a>
+            <a href="#rsvp" className="text-[#1F1F1F] hover:text-[#D4AF37] transition-colors">
+              RSVP
+            </a>
+          </nav>
+        </div>
+      </header>
+
+      {/* Cover Section */}
+      <section className="pt-32 pb-20 md:pt-40 md:pb-32 px-4">
+        <div className="container text-center fade-in">
+          <div className="mb-8 flex justify-center">
+            <div className="text-6xl md:text-7xl font-serif font-bold text-[#D4AF37]">&</div>
+          </div>
+          <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#1F1F1F] mb-6">
+            Sarah & Michael
+          </h1>
+          <p className="text-base md:text-lg text-[#666666] mb-12 max-w-2xl mx-auto font-light">
+            Two hearts, one story.
+          </p>
+          <a href="#rsvp" className="inline-block">
+            <button className="btn-minimal">Confirm Your Presence</button>
+          </a>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="flex justify-center">
+        <div className="divider-gold"></div>
+      </div>
+
+      {/* Quote Section */}
+      <section className="py-16 md:py-24 px-4">
+        <div className="container text-center">
+          <p className="text-2xl md:text-3xl font-serif italic text-[#1F1F1F] leading-relaxed">
+            "Love is the master key that opens the gates of happiness."
+          </p>
+          <p className="text-sm text-[#999999] mt-6">— Oliver Wendell Holmes</p>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="flex justify-center">
+        <div className="divider-gold"></div>
+      </div>
+
+      {/* Wedding Couple Section */}
+      <section id="couple" className="section px-4">
+        <div className="container">
+          <div className="text-center mb-16">
+            <div className="divider-gold mb-8"></div>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-8">Our Story</h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto mb-16">
+            <div className="rounded-lg overflow-hidden shadow-sm mb-12">
+              <img
+                src="/manus-storage/hero-couple_a849dbd2.png"
+                alt="Sarah and Michael"
+                className="w-full h-96 object-cover"
+              />
+            </div>
+            <p className="text-center text-[#666666] leading-relaxed mb-8">
+              Sarah, an architect with an eye for beauty, and Michael, a musician with a soul for creation, found each other in a moment that felt like destiny. Their love story is one of quiet moments, shared dreams, and the certainty that they were meant to walk this path together.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="flex justify-center">
+        <div className="divider-gold"></div>
+      </div>
+
+      {/* Event Section */}
+      <section id="event" className="section px-4">
+        <div className="container">
+          <div className="heading-ornament">
+            <span className="leaf-ornament">🌿</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-[#1F1F1F]">Wedding Details</h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="mb-12">
+              <h3 className="text-2xl font-serif text-[#1F1F1F] mb-6">Saturday, June 14, 2025</h3>
+              <p className="text-[#666666] mb-2">Ceremony at 4:00 PM</p>
+              <p className="text-[#666666] mb-6">Reception at 6:00 PM</p>
+              <p className="text-sm text-[#999999] mb-4">Riverside Garden Pavilion</p>
+              <p className="text-sm text-[#999999] mb-8">1234 Riverside Drive, Portland, OR 97214</p>
+              <button className="btn-minimal">Get Directions</button>
+            </div>
+            <div className="pt-8 border-t border-[#EAEAEA]">
+              <p className="text-sm text-[#666666]">Black Tie Optional</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="flex justify-center">
+        <div className="divider-gold"></div>
+      </div>
+
+      {/* Gallery Section */}
+      <section id="gallery" className="section px-4">
+        <div className="container">
+          <div className="text-center mb-16">
+            <div className="divider-gold mb-8"></div>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F]">Moments</h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <img
+                src="/manus-storage/gallery-1_913839a7.png"
+                alt="Wedding moment"
+                className="w-full h-56 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <img
+                src="/manus-storage/gallery-2_f489969a.png"
+                alt="Wedding moment"
+                className="w-full h-56 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <img
+                src="/manus-storage/gallery-3_9836e6f0.png"
+                alt="Wedding moment"
+                className="w-full h-56 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <img
+                src="/manus-storage/hero-couple_a849dbd2.png"
+                alt="Wedding moment"
+                className="w-full h-56 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <img
+                src="/manus-storage/gallery-1_913839a7.png"
+                alt="Wedding moment"
+                className="w-full h-56 object-cover"
+              />
+            </div>
+            <div className="rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <img
+                src="/manus-storage/gallery-3_9836e6f0.png"
+                alt="Wedding moment"
+                className="w-full h-56 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="flex justify-center">
+        <div className="divider-gold"></div>
+      </div>
+
+      {/* RSVP Section */}
+      <section id="rsvp" className="section px-4">
+        <div className="container max-w-2xl">
+          <div className="text-center mb-12">
+            <div className="divider-gold mb-8"></div>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4">Confirm Your Presence</h2>
+            <p className="text-sm text-[#999999]">We'd be honored to celebrate with you. Please respond by May 31, 2025.</p>
+          </div>
+
+          {rsvpSubmitted ? (
+            <div className="card-minimal text-center">
+              <h3 className="text-2xl font-serif text-[#1F1F1F] mb-3">Thank You!</h3>
+              <p className="text-[#666666]">
+                We've received your response. We can't wait to celebrate with you on June 14th.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleRsvpSubmit} className="space-y-6 max-w-md mx-auto">
+              <div>
+                <label className="block text-xs font-medium text-[#1F1F1F] mb-3 uppercase tracking-wide">Full Name *</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={rsvpData.name}
+                  onChange={handleRsvpChange}
+                  placeholder="Your name"
+                  className="input-minimal"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[#1F1F1F] mb-3 uppercase tracking-wide">Email Address *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={rsvpData.email}
+                  onChange={handleRsvpChange}
+                  placeholder="your@email.com"
+                  className="input-minimal"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[#1F1F1F] mb-3 uppercase tracking-wide">Number of Guests</label>
+                <select
+                  name="guests"
+                  value={rsvpData.guests}
+                  onChange={handleRsvpChange}
+                  className="input-minimal"
+                >
+                  <option value="1">1 Guest</option>
+                  <option value="2">2 Guests</option>
+                  <option value="3">3 Guests</option>
+                  <option value="4">4 Guests</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-[#1F1F1F] mb-3 uppercase tracking-wide">Dietary Restrictions</label>
+                <textarea
+                  name="dietary"
+                  value={rsvpData.dietary}
+                  onChange={handleRsvpChange}
+                  placeholder="Please let us know if you have any dietary restrictions"
+                  className="input-minimal resize-none"
+                  rows={3}
+                />
+              </div>
+
+              <button type="submit" className="btn-minimal w-full">
+                Confirm Attendance
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* Gift Section */}
+      <section className="section px-4">
+        <div className="container max-w-2xl">
+          <div className="text-center mb-12">
+            <div className="divider-gold mb-8"></div>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4">Gift Registry</h2>
+            <p className="text-sm text-[#999999]">Your presence is our greatest gift. If you wish to honor us, here are our preferences.</p>
+          </div>
+
+          <div className="max-w-2xl mx-auto text-center space-y-6">
+            <div>
+              <h3 className="text-lg font-serif text-[#1F1F1F] mb-2">Honeymoon Fund</h3>
+              <p className="text-sm text-[#666666] mb-4">Help us create unforgettable memories on our honeymoon to Italy.</p>
+              <button className="btn-minimal text-sm">View Fund</button>
+            </div>
+
+            <div className="pt-6 border-t border-[#EAEAEA]">
+              <h3 className="text-lg font-serif text-[#1F1F1F] mb-2">Home Essentials</h3>
+              <p className="text-sm text-[#666666] mb-4">Browse our curated registry of items for our new home.</p>
+              <button className="btn-minimal text-sm">View Registry</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Wedding Wishes Section */}
+      <section className="section px-4">
+        <div className="container max-w-2xl">
+          <div className="text-center mb-12">
+            <div className="divider-gold mb-8"></div>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4">Share Your Wishes</h2>
+            <p className="text-sm text-[#999999]">Leave us a message of love and support.</p>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <textarea
+              placeholder="Your heartfelt message..."
+              value={wishesText}
+              onChange={(e) => setWishesText(e.target.value)}
+              className="input-minimal resize-none w-full"
+              rows={5}
+            />
+            <button onClick={() => {
+              if (wishesText.trim()) {
+                toast.success("Thank you for your wishes!");
+                setWishesText("");
+              }
+            }} className="btn-minimal w-full mt-6">
+              Send Wishes
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Closing Section */}
+      <section className="section px-4">
+        <div className="container text-center max-w-2xl">
+          <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-6">
+            We Can't Wait to Celebrate with You
+          </h2>
+          <p className="text-[#666666] mb-8 leading-relaxed">
+            Join us for a day filled with love, laughter, and cherished moments as we begin our forever journey together.
+          </p>
+          <a href="#rsvp" className="inline-block">
+            <button className="btn-minimal">Confirm Your Presence</button>
+          </a>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-[#EAEAEA] py-8 px-4">
+        <div className="container text-center">
+          <p className="text-sm text-[#999999]">
+            © 2025 Sarah & Michael. Created with love.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

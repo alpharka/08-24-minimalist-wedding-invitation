@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { CalendarPlus } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 /**
@@ -21,6 +20,68 @@ export default function Home() {
   });
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
   const [wishesText, setWishesText] = useState("");
+  const storyRef = useRef<HTMLElement>(null);
+  const galleryRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const sections = [storyRef.current, galleryRef.current].filter(
+      (section): section is HTMLElement => Boolean(section),
+    );
+
+    if (!("IntersectionObserver" in window)) {
+      sections.forEach((section) => section.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.12 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  const handleAddToCalendar = () => {
+    const calendarEvent = [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Sarah & Michael//Wedding Invitation//EN",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "X-WR-CALNAME:Sarah & Michael's Wedding",
+      "BEGIN:VEVENT",
+      "UID:sarah-michael-wedding-2025@invitation.local",
+      "DTSTAMP:20240101T000000Z",
+      "DTSTART:20250614T230000Z",
+      "DTEND:20250615T050000Z",
+      "SUMMARY:Sarah & Michael's Wedding",
+      "LOCATION:Riverside Garden Pavilion\\, 1234 Riverside Drive\\, Portland\\, OR 97214",
+      "DESCRIPTION:Join us as we celebrate Sarah and Michael. Ceremony at 4:00 PM, reception at 6:00 PM.",
+      "STATUS:CONFIRMED",
+      "TRANSP:OPAQUE",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\\r\\n");
+
+    const file = new Blob([calendarEvent], { type: "text/calendar;charset=utf-8" });
+    const downloadUrl = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = "sarah-michael-wedding.ics";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(downloadUrl);
+    toast.success("Your calendar event is ready to download.");
+  };
 
   const handleRsvpChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -103,7 +164,7 @@ export default function Home() {
       </div>
 
       {/* Wedding Couple Section */}
-      <section id="couple" className="section px-4">
+      <section id="couple" ref={storyRef} className="section px-4 scroll-fade-section">
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>
@@ -133,9 +194,9 @@ export default function Home() {
       {/* Event Section */}
       <section id="event" className="section px-4">
         <div className="container">
-          <div className="heading-ornament">
-            <span className="leaf-ornament">🌿</span>
-            <h2 className="text-4xl md:text-5xl font-serif text-[#1F1F1F]">Wedding Details</h2>
+          <div className="text-center mb-16">
+            <div className="divider-gold mb-8"></div>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F]">Wedding Details</h2>
           </div>
 
           <div className="max-w-3xl mx-auto text-center">
@@ -145,7 +206,18 @@ export default function Home() {
               <p className="text-[#666666] mb-6">Reception at 6:00 PM</p>
               <p className="text-sm text-[#999999] mb-4">Riverside Garden Pavilion</p>
               <p className="text-sm text-[#999999] mb-8">1234 Riverside Drive, Portland, OR 97214</p>
-              <button className="btn-minimal">Get Directions</button>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button className="btn-minimal">Get Directions</button>
+                <button
+                  type="button"
+                  onClick={handleAddToCalendar}
+                  className="btn-minimal inline-flex items-center justify-center gap-2"
+                  aria-label="Download Sarah and Michael's wedding event for your calendar"
+                >
+                  <CalendarPlus size={16} strokeWidth={1.5} aria-hidden="true" />
+                  Add to Calendar
+                </button>
+              </div>
             </div>
             <div className="pt-8 border-t border-[#EAEAEA]">
               <p className="text-sm text-[#666666]">Black Tie Optional</p>
@@ -160,7 +232,7 @@ export default function Home() {
       </div>
 
       {/* Gallery Section */}
-      <section id="gallery" className="section px-4">
+      <section id="gallery" ref={galleryRef} className="section px-4 scroll-fade-section">
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>

@@ -1,4 +1,11 @@
-import { CalendarPlus } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  CalendarPlus,
+  ClipboardList,
+  Heart,
+  Images,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -21,33 +28,48 @@ export default function Home() {
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
   const [wishesText, setWishesText] = useState("");
   const sectionRefs = useRef<Array<HTMLElement | null>>([]);
+  const [revealedSections, setRevealedSections] = useState<Set<number>>(() => new Set([0]));
 
   useEffect(() => {
     const sections = sectionRefs.current.filter(
       (section): section is HTMLElement => Boolean(section),
     );
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealAll = () => setRevealedSections(new Set(sections.map((_, index) => index)));
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      sections.forEach((section) => section.classList.add("is-visible"));
+      revealAll();
       return;
     }
 
+    const sectionIndexes = new Map<HTMLElement, number>(
+      sections.map((section, index) => [section, index]),
+    );
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) return;
+          const sectionIndex = sectionIndexes.get(entry.target as HTMLElement);
+          if (sectionIndex === undefined) return;
+
+          setRevealedSections((current) => {
+            if (current.has(sectionIndex)) return current;
+            const next = new Set(current);
+            next.add(sectionIndex);
+            return next;
+          });
+          observer.unobserve(entry.target);
         });
       },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.12 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
     );
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
+
+  const revealClass = (sectionIndex: number, className: string) =>
+    `${className} scroll-reveal ${revealedSections.has(sectionIndex) ? "is-visible" : ""}`;
 
   const handleAddToCalendar = () => {
     const calendarEvent = [
@@ -103,7 +125,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pb-20 md:pb-0">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-[#EAEAEA] z-50">
         <div className="container flex items-center justify-between py-4">
@@ -128,7 +150,7 @@ export default function Home() {
       {/* Cover Section */}
       <section
         ref={(element) => { sectionRefs.current[0] = element; }}
-        className="pt-32 pb-20 md:pt-40 md:pb-32 px-4 scroll-fade-section is-visible"
+        className={revealClass(0, "pt-32 pb-20 md:pt-40 md:pb-32 px-4")}
       >
         <div className="container text-center fade-in">
           <div className="mb-8 flex justify-center">
@@ -153,7 +175,7 @@ export default function Home() {
       <section
         id="invitation-start"
         ref={(element) => { sectionRefs.current[1] = element; }}
-        className="py-16 md:py-24 px-4 scroll-fade-section"
+        className={revealClass(1, "py-16 md:py-24 px-4")}
       >
         <div className="container text-center">
           <p className="text-2xl md:text-3xl font-serif italic text-[#1F1F1F] leading-relaxed">
@@ -172,7 +194,7 @@ export default function Home() {
       <section
         id="couple"
         ref={(element) => { sectionRefs.current[2] = element; }}
-        className="section px-4 scroll-fade-section"
+        className={revealClass(2, "section px-4")}
       >
         <div className="container">
           <div className="text-center mb-16">
@@ -204,7 +226,7 @@ export default function Home() {
       <section
         id="event"
         ref={(element) => { sectionRefs.current[3] = element; }}
-        className="section px-4 scroll-fade-section"
+        className={revealClass(3, "section px-4")}
       >
         <div className="container">
           <div className="text-center mb-16">
@@ -248,7 +270,7 @@ export default function Home() {
       <section
         id="gallery"
         ref={(element) => { sectionRefs.current[4] = element; }}
-        className="section px-4 scroll-fade-section"
+        className={revealClass(4, "section px-4")}
       >
         <div className="container">
           <div className="text-center mb-16">
@@ -312,7 +334,7 @@ export default function Home() {
       <section
         id="rsvp"
         ref={(element) => { sectionRefs.current[5] = element; }}
-        className="section px-4 scroll-fade-section"
+        className={revealClass(5, "section px-4")}
       >
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
@@ -394,7 +416,7 @@ export default function Home() {
       {/* Gift Section */}
       <section
         ref={(element) => { sectionRefs.current[6] = element; }}
-        className="section px-4 scroll-fade-section"
+        className={revealClass(6, "section px-4")}
       >
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
@@ -421,8 +443,9 @@ export default function Home() {
 
       {/* Wedding Wishes Section */}
       <section
+        id="wishes"
         ref={(element) => { sectionRefs.current[7] = element; }}
-        className="section px-4 scroll-fade-section"
+        className={revealClass(7, "section px-4")}
       >
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
@@ -454,7 +477,7 @@ export default function Home() {
       {/* Closing Section */}
       <section
         ref={(element) => { sectionRefs.current[8] = element; }}
-        className="section px-4 scroll-fade-section"
+        className={revealClass(8, "section px-4")}
       >
         <div className="container text-center max-w-2xl">
           <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-6">
@@ -468,6 +491,30 @@ export default function Home() {
           </a>
         </div>
       </section>
+
+      {/* Mobile bottom navigation */}
+      <nav className="mobile-bottom-nav md:hidden" aria-label="Navigasi undangan">
+        <a href="#couple" aria-label="Buka bagian cerita">
+          <BookOpen size={17} strokeWidth={1.6} aria-hidden="true" />
+          <span>Story</span>
+        </a>
+        <a href="#event" aria-label="Buka bagian acara">
+          <CalendarDays size={17} strokeWidth={1.6} aria-hidden="true" />
+          <span>Event</span>
+        </a>
+        <a href="#gallery" aria-label="Buka galeri momen">
+          <Images size={17} strokeWidth={1.6} aria-hidden="true" />
+          <span>Gallery</span>
+        </a>
+        <a href="#rsvp" aria-label="Buka konfirmasi kehadiran">
+          <ClipboardList size={17} strokeWidth={1.6} aria-hidden="true" />
+          <span>RSVP</span>
+        </a>
+        <a href="#wishes" aria-label="Buka bagian ucapan">
+          <Heart size={17} strokeWidth={1.6} aria-hidden="true" />
+          <span>Wishes</span>
+        </a>
+      </nav>
 
       {/* Footer */}
       <footer className="border-t border-[#EAEAEA] py-8 px-4">

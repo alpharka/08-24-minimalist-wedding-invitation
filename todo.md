@@ -1,10 +1,10 @@
 # Enhancement Tasks
 
-- [x] Inspect the current opening CTA and all content sections before editing.
-- [x] Replace the opening “Confirm Your Presence” CTA with “Buka Undangan” and make it reveal the invitation content without navigating to the RSVP section.
-- [x] Add subtle scroll-triggered reveal animations to every major content section, with reduced-motion support.
-- [x] Verify the CTA behavior, animation behavior, mobile layout, and TypeScript/build health.
-- [ ] Save a new checkpoint and deliver the refined website.
+- [x] Inspect the current scroll reveal implementation and mobile navigation layout.
+- [x] Repair the scroll-triggered animation so each section visibly reveals when entering the viewport.
+- [x] Add a sticky bottom navigation bar on mobile with links to the main invitation sections.
+- [x] Verify motion visibility, reduced-motion behavior, sticky navigation, mobile spacing, and TypeScript/build health.
+- [ ] Save a new checkpoint and deliver the corrected website.
 
 ## Notes
 

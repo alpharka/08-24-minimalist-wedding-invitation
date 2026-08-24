@@ -206,16 +206,58 @@
     @apply w-full px-4 py-3 rounded-lg border-b border-[#EAEAEA] bg-white text-[#1F1F1F] placeholder-[#999999] focus:outline-none focus:border-b-2 focus:border-[#D4AF37] transition-all duration-200;
   }
 
-  /* Scroll-triggered section reveal */
-  .scroll-fade-section {
+  /* Scroll-triggered section reveal: visible only after viewport entry */
+  .scroll-reveal {
     opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 420ms ease-out, transform 420ms ease-out;
+    transform: translate3d(0, 24px, 0);
+    transition: opacity 560ms cubic-bezier(0.23, 1, 0.32, 1), transform 560ms cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: opacity, transform;
+    scroll-margin-top: 5rem;
   }
 
-  .scroll-fade-section.is-visible {
+  .scroll-reveal.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Mobile-only sticky navigation */
+  .mobile-bottom-nav {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.25rem;
+    padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom));
+    border-top: 1px solid #eaeaea;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 -8px 24px rgba(31, 31, 31, 0.06);
+    backdrop-filter: blur(14px);
+  }
+
+  .mobile-bottom-nav a {
+    min-height: 2.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    color: #777777;
+    font-size: 0.62rem;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: color 180ms ease-out, transform 180ms ease-out;
+  }
+
+  .mobile-bottom-nav a:hover,
+  .mobile-bottom-nav a:focus-visible {
+    color: #1f1f1f;
+  }
+
+  .mobile-bottom-nav a:active {
+    transform: translateY(1px);
   }
 
   /* Fade in animation */
@@ -255,8 +297,9 @@
       scroll-behavior: auto;
     }
 
-    .scroll-fade-section,
-    .scroll-fade-section.is-visible,
+    .scroll-reveal,
+    .scroll-reveal.is-visible,
+    .mobile-bottom-nav a,
     .fade-in,
     .slide-up {
       opacity: 1;

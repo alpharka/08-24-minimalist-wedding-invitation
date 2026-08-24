@@ -20,15 +20,15 @@ export default function Home() {
   });
   const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
   const [wishesText, setWishesText] = useState("");
-  const storyRef = useRef<HTMLElement>(null);
-  const galleryRef = useRef<HTMLElement>(null);
+  const sectionRefs = useRef<Array<HTMLElement | null>>([]);
 
   useEffect(() => {
-    const sections = [storyRef.current, galleryRef.current].filter(
+    const sections = sectionRefs.current.filter(
       (section): section is HTMLElement => Boolean(section),
     );
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (!("IntersectionObserver" in window)) {
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
       sections.forEach((section) => section.classList.add("is-visible"));
       return;
     }
@@ -126,7 +126,10 @@ export default function Home() {
       </header>
 
       {/* Cover Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-32 px-4">
+      <section
+        ref={(element) => { sectionRefs.current[0] = element; }}
+        className="pt-32 pb-20 md:pt-40 md:pb-32 px-4 scroll-fade-section is-visible"
+      >
         <div className="container text-center fade-in">
           <div className="mb-8 flex justify-center">
             <div className="text-6xl md:text-7xl font-serif font-bold text-[#D4AF37]">&</div>
@@ -137,9 +140,7 @@ export default function Home() {
           <p className="text-base md:text-lg text-[#666666] mb-12 max-w-2xl mx-auto font-light">
             Two hearts, one story.
           </p>
-          <a href="#rsvp" className="inline-block">
-            <button className="btn-minimal">Confirm Your Presence</button>
-          </a>
+          <a href="#invitation-start" className="btn-minimal inline-block">Buka Undangan</a>
         </div>
       </section>
 
@@ -149,7 +150,11 @@ export default function Home() {
       </div>
 
       {/* Quote Section */}
-      <section className="py-16 md:py-24 px-4">
+      <section
+        id="invitation-start"
+        ref={(element) => { sectionRefs.current[1] = element; }}
+        className="py-16 md:py-24 px-4 scroll-fade-section"
+      >
         <div className="container text-center">
           <p className="text-2xl md:text-3xl font-serif italic text-[#1F1F1F] leading-relaxed">
             "Love is the master key that opens the gates of happiness."
@@ -164,7 +169,11 @@ export default function Home() {
       </div>
 
       {/* Wedding Couple Section */}
-      <section id="couple" ref={storyRef} className="section px-4 scroll-fade-section">
+      <section
+        id="couple"
+        ref={(element) => { sectionRefs.current[2] = element; }}
+        className="section px-4 scroll-fade-section"
+      >
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>
@@ -192,7 +201,11 @@ export default function Home() {
       </div>
 
       {/* Event Section */}
-      <section id="event" className="section px-4">
+      <section
+        id="event"
+        ref={(element) => { sectionRefs.current[3] = element; }}
+        className="section px-4 scroll-fade-section"
+      >
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>
@@ -232,7 +245,11 @@ export default function Home() {
       </div>
 
       {/* Gallery Section */}
-      <section id="gallery" ref={galleryRef} className="section px-4 scroll-fade-section">
+      <section
+        id="gallery"
+        ref={(element) => { sectionRefs.current[4] = element; }}
+        className="section px-4 scroll-fade-section"
+      >
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>
@@ -292,7 +309,11 @@ export default function Home() {
       </div>
 
       {/* RSVP Section */}
-      <section id="rsvp" className="section px-4">
+      <section
+        id="rsvp"
+        ref={(element) => { sectionRefs.current[5] = element; }}
+        className="section px-4 scroll-fade-section"
+      >
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
             <div className="divider-gold mb-8"></div>
@@ -371,7 +392,10 @@ export default function Home() {
       </section>
 
       {/* Gift Section */}
-      <section className="section px-4">
+      <section
+        ref={(element) => { sectionRefs.current[6] = element; }}
+        className="section px-4 scroll-fade-section"
+      >
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
             <div className="divider-gold mb-8"></div>
@@ -396,7 +420,10 @@ export default function Home() {
       </section>
 
       {/* Wedding Wishes Section */}
-      <section className="section px-4">
+      <section
+        ref={(element) => { sectionRefs.current[7] = element; }}
+        className="section px-4 scroll-fade-section"
+      >
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
             <div className="divider-gold mb-8"></div>
@@ -425,7 +452,10 @@ export default function Home() {
       </section>
 
       {/* Closing Section */}
-      <section className="section px-4">
+      <section
+        ref={(element) => { sectionRefs.current[8] = element; }}
+        className="section px-4 scroll-fade-section"
+      >
         <div className="container text-center max-w-2xl">
           <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-6">
             We Can't Wait to Celebrate with You

@@ -1,10 +1,10 @@
 # Enhancement Tasks
 
-- [x] Inspect the existing event details, story, gallery, and global styles before making changes.
-- [x] Add an accessible Add to Calendar button that downloads an `.ics` calendar event file for the ceremony and reception.
-- [x] Add subtle scroll-triggered fade-in animations to the story and gallery sections, including reduced-motion handling.
-- [x] Verify the updated page, interaction behavior, mobile layout, and TypeScript/build health.
-- [ ] Save a new checkpoint and deliver the updated website.
+- [x] Inspect the current opening CTA and all content sections before editing.
+- [x] Replace the opening “Confirm Your Presence” CTA with “Buka Undangan” and make it reveal the invitation content without navigating to the RSVP section.
+- [x] Add subtle scroll-triggered reveal animations to every major content section, with reduced-motion support.
+- [x] Verify the CTA behavior, animation behavior, mobile layout, and TypeScript/build health.
+- [ ] Save a new checkpoint and deliver the refined website.
 
 ## Notes
 

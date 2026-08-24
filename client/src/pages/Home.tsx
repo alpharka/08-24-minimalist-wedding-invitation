@@ -71,6 +71,9 @@ export default function Home() {
   const revealClass = (sectionIndex: number, className: string) =>
     `${className} scroll-reveal ${revealedSections.has(sectionIndex) ? "is-visible" : ""}`;
 
+  const textRevealClass = (sectionIndex: number, className: string) =>
+    `${className} scroll-text-fade ${revealedSections.has(sectionIndex) ? "is-text-visible" : ""}`;
+
   const handleAddToCalendar = () => {
     const calendarEvent = [
       "BEGIN:VCALENDAR",
@@ -156,13 +159,13 @@ export default function Home() {
           <div className="mb-8 flex justify-center">
             <div className="text-6xl md:text-7xl font-serif font-bold text-[#D4AF37]">&</div>
           </div>
-          <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#1F1F1F] mb-6">
+          <h1 className={textRevealClass(0, "text-5xl md:text-7xl font-serif font-bold text-[#1F1F1F] mb-6")}>
             Sarah & Michael
           </h1>
-          <p className="text-base md:text-lg text-[#666666] mb-12 max-w-2xl mx-auto font-light">
+          <p className={textRevealClass(0, "text-base md:text-lg text-[#666666] mb-12 max-w-2xl mx-auto font-light scroll-text-fade--late")}>
             Two hearts, one story.
           </p>
-          <a href="#invitation-start" className="btn-minimal inline-block">Buka Undangan</a>
+          <a href="#invitation-start" className={textRevealClass(0, "btn-minimal inline-block scroll-text-fade--later")}>Buka Undangan</a>
         </div>
       </section>
 
@@ -178,10 +181,10 @@ export default function Home() {
         className={revealClass(1, "py-16 md:py-24 px-4")}
       >
         <div className="container text-center">
-          <p className="text-2xl md:text-3xl font-serif italic text-[#1F1F1F] leading-relaxed">
+          <p className={textRevealClass(1, "text-2xl md:text-3xl font-serif italic text-[#1F1F1F] leading-relaxed")}>
             "Love is the master key that opens the gates of happiness."
           </p>
-          <p className="text-sm text-[#999999] mt-6">— Oliver Wendell Holmes</p>
+          <p className={textRevealClass(1, "text-sm text-[#999999] mt-6 scroll-text-fade--late")}>— Oliver Wendell Holmes</p>
         </div>
       </section>
 
@@ -199,7 +202,7 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-8">Our Story</h2>
+            <h2 className={textRevealClass(2, "text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-8")}>Our Story</h2>
           </div>
 
           <div className="max-w-3xl mx-auto mb-16">
@@ -210,7 +213,7 @@ export default function Home() {
                 className="w-full h-96 object-cover"
               />
             </div>
-            <p className="text-center text-[#666666] leading-relaxed mb-8">
+            <p className={textRevealClass(2, "text-center text-[#666666] leading-relaxed mb-8 scroll-text-fade--late")}>
               Sarah, an architect with an eye for beauty, and Michael, a musician with a soul for creation, found each other in a moment that felt like destiny. Their love story is one of quiet moments, shared dreams, and the certainty that they were meant to walk this path together.
             </p>
           </div>
@@ -231,11 +234,11 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F]">Wedding Details</h2>
+            <h2 className={textRevealClass(3, "text-3xl md:text-4xl font-serif text-[#1F1F1F]")}>Wedding Details</h2>
           </div>
 
           <div className="max-w-3xl mx-auto text-center">
-            <div className="mb-12">
+            <div className={textRevealClass(3, "mb-12 scroll-text-fade--late")}>
               <h3 className="text-2xl font-serif text-[#1F1F1F] mb-6">Saturday, June 14, 2025</h3>
               <p className="text-[#666666] mb-2">Ceremony at 4:00 PM</p>
               <p className="text-[#666666] mb-6">Reception at 6:00 PM</p>
@@ -275,7 +278,7 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-16">
             <div className="divider-gold mb-8"></div>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F]">Moments</h2>
+            <h2 className={textRevealClass(4, "text-3xl md:text-4xl font-serif text-[#1F1F1F]")}>Moments</h2>
           </div>
 
           <div className="max-w-3xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
@@ -339,8 +342,8 @@ export default function Home() {
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
             <div className="divider-gold mb-8"></div>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4">Confirm Your Presence</h2>
-            <p className="text-sm text-[#999999]">We'd be honored to celebrate with you. Please respond by May 31, 2025.</p>
+            <h2 className={textRevealClass(5, "text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4")}>Confirm Your Presence</h2>
+            <p className={textRevealClass(5, "text-sm text-[#999999] scroll-text-fade--late")}>We'd be honored to celebrate with you. Please respond by May 31, 2025.</p>
           </div>
 
           {rsvpSubmitted ? (
@@ -351,7 +354,7 @@ export default function Home() {
               </p>
             </div>
           ) : (
-            <form onSubmit={handleRsvpSubmit} className="space-y-6 max-w-md mx-auto">
+            <form onSubmit={handleRsvpSubmit} className={textRevealClass(5, "space-y-6 max-w-md mx-auto scroll-text-fade--later")}>
               <div>
                 <label className="block text-xs font-medium text-[#1F1F1F] mb-3 uppercase tracking-wide">Full Name *</label>
                 <input
@@ -421,11 +424,11 @@ export default function Home() {
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
             <div className="divider-gold mb-8"></div>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4">Gift Registry</h2>
-            <p className="text-sm text-[#999999]">Your presence is our greatest gift. If you wish to honor us, here are our preferences.</p>
+            <h2 className={textRevealClass(6, "text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4")}>Gift Registry</h2>
+            <p className={textRevealClass(6, "text-sm text-[#999999] scroll-text-fade--late")}>Your presence is our greatest gift. If you wish to honor us, here are our preferences.</p>
           </div>
 
-          <div className="max-w-2xl mx-auto text-center space-y-6">
+          <div className={textRevealClass(6, "max-w-2xl mx-auto text-center space-y-6 scroll-text-fade--later")}>
             <div>
               <h3 className="text-lg font-serif text-[#1F1F1F] mb-2">Honeymoon Fund</h3>
               <p className="text-sm text-[#666666] mb-4">Help us create unforgettable memories on our honeymoon to Italy.</p>
@@ -450,11 +453,11 @@ export default function Home() {
         <div className="container max-w-2xl">
           <div className="text-center mb-12">
             <div className="divider-gold mb-8"></div>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4">Share Your Wishes</h2>
-            <p className="text-sm text-[#999999]">Leave us a message of love and support.</p>
+            <h2 className={textRevealClass(7, "text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-4")}>Share Your Wishes</h2>
+            <p className={textRevealClass(7, "text-sm text-[#999999] scroll-text-fade--late")}>Leave us a message of love and support.</p>
           </div>
 
-          <div className="max-w-2xl mx-auto">
+          <div className={textRevealClass(7, "max-w-2xl mx-auto scroll-text-fade--later")}>
             <textarea
               placeholder="Your heartfelt message..."
               value={wishesText}
@@ -480,13 +483,13 @@ export default function Home() {
         className={revealClass(8, "section px-4")}
       >
         <div className="container text-center max-w-2xl">
-          <h2 className="text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-6">
+          <h2 className={textRevealClass(8, "text-3xl md:text-4xl font-serif text-[#1F1F1F] mb-6")}>
             We Can't Wait to Celebrate with You
           </h2>
-          <p className="text-[#666666] mb-8 leading-relaxed">
+          <p className={textRevealClass(8, "text-[#666666] mb-8 leading-relaxed scroll-text-fade--late")}>
             Join us for a day filled with love, laughter, and cherished moments as we begin our forever journey together.
           </p>
-          <a href="#rsvp" className="inline-block">
+          <a href="#rsvp" className={textRevealClass(8, "inline-block scroll-text-fade--later")}>
             <button className="btn-minimal">Confirm Your Presence</button>
           </a>
         </div>

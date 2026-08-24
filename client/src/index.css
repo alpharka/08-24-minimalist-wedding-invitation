@@ -220,6 +220,27 @@
     transform: translate3d(0, 0, 0);
   }
 
+  /* Text enters after its section begins to reveal */
+  .scroll-text-fade {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+    transition: opacity 520ms cubic-bezier(0.23, 1, 0.32, 1), transform 520ms cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: opacity, transform;
+  }
+
+  .scroll-text-fade.is-text-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .scroll-text-fade--late {
+    transition-delay: 90ms;
+  }
+
+  .scroll-text-fade--later {
+    transition-delay: 160ms;
+  }
+
   /* Mobile-only sticky navigation */
   .mobile-bottom-nav {
     position: fixed;
@@ -299,6 +320,8 @@
 
     .scroll-reveal,
     .scroll-reveal.is-visible,
+    .scroll-text-fade,
+    .scroll-text-fade.is-text-visible,
     .mobile-bottom-nav a,
     .fade-in,
     .slide-up {
